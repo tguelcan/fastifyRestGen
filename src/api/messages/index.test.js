@@ -1,6 +1,6 @@
 import test from 'tape'
 import server from '~/server'
-
+import { autoPrefix } from './'
 let fastify = server
 
 test('setup', async t => {
@@ -9,12 +9,12 @@ test('setup', async t => {
     t.end()
 })
 
-test('GET `/api/messages` route', t => {
+test(`GET /api${autoPrefix} route`, t => {
     t.plan(4)
 
     fastify.inject({
         method: 'GET',
-        url: '/api/messages'
+        url: `/api${autoPrefix}`
     }, (err, response) => {
         t.error(err)
         t.strictEqual(response.statusCode, 200)
@@ -24,12 +24,12 @@ test('GET `/api/messages` route', t => {
 
 })
 
-test('GET `/api/messages/:id` route', t => {
+test(`GET /api/${autoPrefix}/:id route`, t => {
     t.plan(4)
 
     fastify.inject({
         method: 'GET',
-        url: '/api/messages/2'
+        url: `/api${autoPrefix}/2`
     }, (err, response) => {
         t.error(err)
         t.strictEqual(response.statusCode, 200)

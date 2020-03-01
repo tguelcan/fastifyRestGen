@@ -1,16 +1,15 @@
 import { params, documentation } from './schema'
 
 export const autoPrefix = '/messages'
-export default (route, opts, next) => {
-    
-    route.addSchema(params)
 
+export default (route, opts, next) => {
+    route.addSchema(params(autoPrefix))
 
     // Add Routes
 
     route.get('/', { 
         schema: {        
-            ...documentation,
+            ...documentation(autoPrefix),
         } 
     }, async(req, res) => 
         res.send({ hello: 'world' })
@@ -18,8 +17,8 @@ export default (route, opts, next) => {
 
     route.get('/:id', { 
         schema: {
-            ...documentation,
-            params: 'messages#'
+            ...documentation(autoPrefix),
+            params: `${autoPrefix}#`
         }
     }, async(req, res) => 
         res.send(req.params)

@@ -1,5 +1,5 @@
-export const params = {
-    $id: 'messages',
+export const params = apiName => ({
+    $id: apiName,
     type: 'object',
     required: ['id'],
     properties: {
@@ -9,9 +9,9 @@ export const params = {
         }
 
     }
-}
+})
 
-export const documentation = {
-    description: 'messages',
-    tags: ['messages']
-}
+export const documentation = apiName => ({
+    description: apiName,
+    tags: [apiName]
+})

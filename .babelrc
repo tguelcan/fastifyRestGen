@@ -23,8 +23,5 @@
     "@babel/plugin-proposal-optional-chaining"
   ],
   "sourceMaps": "both",
-  "highlightCode": true,
-  "ignore": [
-    "src/**/*.test.js"
-  ]
+  "highlightCode": true
 }

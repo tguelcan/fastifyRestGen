@@ -37,6 +37,17 @@ export const server = {
     }
 }
 
+export const databaseConfig = {
+    uri: 'mongodb://localhost/restgen',
+    settings: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        config: {
+            autoIndex: true
+        }
+    }
+}
+
 export const logger = { 
     // Options: https://github.com/pinojs/pino-pretty#options
     prettyPrint: {

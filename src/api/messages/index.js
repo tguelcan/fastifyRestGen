@@ -2,8 +2,8 @@ import { params, documentation } from './schema'
 
 export const autoPrefix = '/messages'
 
-export default (route, opts, next) => {
-    route.addSchema(params(autoPrefix))
+export default async (route, opts, next) => {
+    await route.addSchema(params(autoPrefix))
 
     // Add Routes
 
@@ -11,9 +11,12 @@ export default (route, opts, next) => {
         schema: {        
             ...documentation(autoPrefix),
         } 
-    }, async(req, res) => 
+    }, async(req, res) => {
+        console.log('---route.mongoose.instance')
+        const testMessage = new route.mongoose.Message({content: 'testhallo'})
+        testMessage.save()
         res.send({ hello: 'world' })
-    )
+    })
 
     route.get('/:id', { 
         schema: {

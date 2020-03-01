@@ -3,7 +3,8 @@ import server from '~/server'
 
 let fastify = server
 
-test('setup', t => {
+test('setup', async t => {
+    await fastify.ready()
     // Setup here
     t.end()
 })

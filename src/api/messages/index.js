@@ -1,32 +1,56 @@
-import { params, documentation } from './schema'
+import { index, show, create, update, destroy } from './controller'
+import { params, body, documentation } from './schema'
 
 export const autoPrefix = '/messages'
 
-export default async (route, opts, next) => {
+export default async (route) => {
     await route.addSchema(params(autoPrefix))
-
-    // Add Routes
 
     route.get('/', { 
         schema: {        
-            ...documentation(autoPrefix),
+            ...documentation(autoPrefix)
         } 
-    }, async(req, res) => {
-        console.log('---route.mongoose.instance')
-        const testMessage = new route.mongoose.Message({content: 'testhallo'})
-        testMessage.save()
-        res.send({ hello: 'world' })
-    })
+    }, index)
 
+    /**
+     * GET ONE Method
+     */
     route.get('/:id', { 
         schema: {
             ...documentation(autoPrefix),
             params: `${autoPrefix}#`
         }
-    }, async(req, res) => 
-        res.send(req.params)
-    )
+    }, show)
 
-    next()
+    /**
+     * POST Method
+     */
+    route.post('/', { 
+        schema: {        
+            ...documentation(autoPrefix),
+            body
+        } 
+    }, create)
+
+    /**
+     * PUT Method
+     */
+    route.put('/:id', { 
+        schema: {
+            ...documentation(autoPrefix),
+            params: `${autoPrefix}#`,
+            body
+        }
+    }, update)
+
+    /**
+     * DELETE Method
+     */
+    route.delete('/:id', { 
+        schema: {
+            ...documentation(autoPrefix),
+            params: `${autoPrefix}#`
+        }
+    }, destroy)
 }
 

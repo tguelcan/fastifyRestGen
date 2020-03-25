@@ -19,7 +19,7 @@ test(`GET /api${autoPrefix} route`, t => {
         t.error(err)
         t.strictEqual(response.statusCode, 200)
         t.strictEqual(response.headers['content-type'], 'application/json; charset=utf-8')
-        t.deepEqual(response.json(), { hello: 'world' })
+        t.deepEqual(response.json(), [])
     })
 
 })

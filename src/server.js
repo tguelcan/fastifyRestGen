@@ -5,10 +5,11 @@ import helmet from 'fastify-helmet'
 import formbody from 'fastify-formbody'
 import rateLimit from 'fastify-rate-limit'
 import autoload from 'fastify-autoload'
-import { plugin } from 'fastify-mongoose-driver'
 import blipp from 'fastify-blipp'
+import sensible from 'fastify-sensible'
 
 import { server, apiDoc, logger, databaseConfig } from '~/config'
+import { connect } from '~/services/mongoose'
 
 const app = fastify({ logger })
 
@@ -18,23 +19,12 @@ app.register(rateLimit, server?.rateLimitConfig)
 app.register(oas, apiDoc)
 app.register(autoload, server?.autoloadConfig)
 app.register(helmet)
-app.register(plugin, {
-    ...databaseConfig, 
-    models: [{
-        name: 'messages',
-        alias: 'Message',
-        schema: {
-            content: {
-                type: String,
-                required: true
-            }
-        }
-    }]
-})
+app.register(sensible)
 
 const start = async () => {
     try {
         await app.register(fastifyEnv, server).ready()
+        await connect(databaseConfig)
         /* istanbul ignore next */
         await app.listen(app.config?.PORT)
         app.oas()

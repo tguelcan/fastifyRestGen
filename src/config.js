@@ -1,5 +1,12 @@
+import dotenv from 'dotenv'
 import path from 'path'
 
+// Load dotenv
+dotenv.config()
+
+/**
+ * General application informations
+ */
 export const appInfo = {
     title: 'Test openapi',
     description: 'testing the fastify swagger api',
@@ -10,6 +17,9 @@ export const appInfo = {
     }
 }
 
+/**
+ * Server configuration
+ */
 export const server = {
     confKey: 'config',
     // Options: https://github.com/fastify/fastify-env#usage
@@ -37,9 +47,12 @@ export const server = {
     }
 }
 
+/**
+ * Database configuration
+ */
 export const databaseConfig = {
-    uri: 'mongodb://localhost/restgen',
-    settings: {
+    uri: process.env.MONGO_URI,
+    options: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         config: {

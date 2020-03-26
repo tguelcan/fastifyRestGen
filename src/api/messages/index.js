@@ -1,10 +1,13 @@
 import { index, show, create, update, destroy } from './controller'
 import { params, body, documentation } from './schema'
+import addHooks  from './hooks'
 
 export const autoPrefix = '/messages'
 
-export default async (route) => {
+export default async (route, { defaultQueryParams }) => {
+    // await route.addSchema(documentation(autoPrefix))
     await route.addSchema(params(autoPrefix))
+    await addHooks(route, defaultQueryParams)
 
     route.get('/', { 
         schema: {        
@@ -52,5 +55,6 @@ export default async (route) => {
             params: `${autoPrefix}#`
         }
     }, destroy)
+
 }
 

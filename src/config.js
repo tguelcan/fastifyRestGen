@@ -18,6 +18,24 @@ export const appInfo = {
 }
 
 /**
+ * Database configuration
+ */
+const databaseConfig = {
+    uri: process.env.MONGO_URI,
+    options: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        config: {
+            autoIndex: true
+        }
+    }
+}
+
+const defaultQueryParams = {
+    limit: 5
+}
+
+/**
  * Server configuration
  */
 export const server = {
@@ -34,9 +52,14 @@ export const server = {
         }
     },
     // Options: https://github.com/fastify/fastify-autoload#example
-    autoloadConfig: {
+    apiAutoloadConfig: {
         dir: path.join(__dirname, 'api'),
-        options: { prefix: '/api' },
+        options: { prefix: '/api', defaultQueryParams },
+        ignorePattern: /.*(test|spec).js/
+    },
+    serviceAutoloadConfig: {
+        dir: path.join(__dirname, 'services'),
+        options: { databaseConfig },
         ignorePattern: /.*(test|spec).js/
     },
     // Options: https://github.com/fastify/fastify-rate-limit#usage
@@ -44,20 +67,6 @@ export const server = {
         max: 100,
         timeWindow: '1 minute',
         whitelist: ['127.0.0.1']
-    }
-}
-
-/**
- * Database configuration
- */
-export const databaseConfig = {
-    uri: process.env.MONGO_URI,
-    options: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        config: {
-            autoIndex: true
-        }
     }
 }
 

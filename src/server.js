@@ -8,23 +8,27 @@ import autoload from 'fastify-autoload'
 import blipp from 'fastify-blipp'
 import sensible from 'fastify-sensible'
 
-import { server, apiDoc, logger, databaseConfig } from '~/config'
-import { connect } from '~/services/mongoose'
+import { server, apiDoc, logger } from '~/config'
 
 const app = fastify({ logger })
-
 app.register(blipp)
 app.register(formbody)
 app.register(rateLimit, server?.rateLimitConfig)
 app.register(oas, apiDoc)
-app.register(autoload, server?.autoloadConfig)
 app.register(helmet)
 app.register(sensible)
+    
+/**
+ * This loads all apis and plugins defined
+ * those should be support plugins that are reused
+ * through your application
+ **/
+app.register(autoload, server?.apiAutoloadConfig)
+app.register(autoload, server?.serviceAutoloadConfig)
 
 const start = async () => {
     try {
         await app.register(fastifyEnv, server).ready()
-        await connect(databaseConfig)
         /* istanbul ignore next */
         await app.listen(app.config?.PORT)
         app.oas()

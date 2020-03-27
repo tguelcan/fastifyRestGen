@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import { isEmail } from 'validator'
-import { errors } from '~/server'
+
 const roles = ['user', 'admin']
 
 // MongoDB Model
@@ -48,11 +48,5 @@ objectSchema.methods = {
         } : view
     }
 }
-
-objectSchema.post('save', function (error, document, next) {
-    next( error.code === 11000 
-        ?   errors().badRequest('This email already exist')
-        :   error)
-})
 
 export default mongoose.model('User', objectSchema)

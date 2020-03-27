@@ -5,7 +5,7 @@
   "main": "lib/server.js",
   "author": "Tayfun Guelcan",
   "scripts": {
-    "test": "babel-tape-runner \"src/**/*.test.js\" | faucet",
+    "test": "cross-env NODE_ENV=test babel-tape-runner \"src/**/*.test.js\" | faucet",
     "coverage": "nyc --reporter=html --reporter=text-summary npm run test",
     "dev": "nodemon --exec babel-node src/server.js",
     "build": "babel src -d lib --ignore \"src/**/*.test.js\"",
@@ -19,6 +19,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "fastify": "^2.12.1",
     "fastify-autoload": "^1.2.2",
@@ -31,6 +32,7 @@
     "fastify-sensible": "^2.1.1",
     "fastify-sentry": "^1.4.0",
     "lodash": "^4.17.15",
+    "mongodb-memory-server": "^6.5.0",
     "mongoose": "^5.9.6",
     "mongoose-query-parser": "^1.1.5",
     "pino-pretty": "^3.6.0",

@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import { isEmail } from 'validator'
+import crypto from 'crypto'
 
 const roles = ['user', 'admin']
 
@@ -49,4 +50,12 @@ objectSchema.methods = {
     }
 }
 
+objectSchema.path('email').set(function (email) {
+    if (!this.picture || this.picture.indexOf('https://gravatar.com') === 0) {
+        const hash = crypto.createHash('md5').update(email).digest('hex')
+        this.picture = `https://gravatar.com/avatar/${hash}?d=identicon`
+    }
+
+    return email
+})
 export default mongoose.model('User', objectSchema)

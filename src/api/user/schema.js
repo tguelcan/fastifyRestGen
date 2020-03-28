@@ -13,7 +13,7 @@ export const params = apiName => ({
 
 export const body = {
     type: 'object',
-    required: ['email', 'name', 'role', 'picture'],
+    required: ['email', 'name', 'role'],
     properties: {
         email: {
             type: 'string',         

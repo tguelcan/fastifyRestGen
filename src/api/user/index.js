@@ -1,11 +1,12 @@
-import { index, show, create, update, destroy } from './controller'
-import { params, body, documentation } from './schema'
+import { index, show, create, update, destroy, updatePassword } from './controller'
+import { params, createBody, updateBody, passwordBody, documentation } from './schema'
+import addHooks  from './hooks'
 
 export const autoPrefix = '/user'
 
 export default async (route) => {
     await route.addSchema(params(autoPrefix))
-
+    await addHooks(route)
     route.get('/', { 
         schema: {        
             ...documentation(autoPrefix)
@@ -28,7 +29,7 @@ export default async (route) => {
     route.post('/', { 
         schema: {        
             ...documentation(autoPrefix),
-            body
+            body: createBody
         } 
     }, create)
 
@@ -39,9 +40,20 @@ export default async (route) => {
         schema: {
             ...documentation(autoPrefix),
             params: `${autoPrefix}#`,
-            body
+            body: updateBody
         }
     }, update)
+
+    /**
+     * PUT Method
+     */
+    route.put('/:id/password', { 
+        schema: {
+            ...documentation(autoPrefix),
+            params: `${autoPrefix}#`,
+            body: passwordBody
+        }
+    }, updatePassword)
 
     /**
      * DELETE Method

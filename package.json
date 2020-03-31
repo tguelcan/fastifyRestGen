@@ -19,6 +19,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "fastify": "^2.12.1",

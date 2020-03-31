@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 import { isEmail } from 'validator'
 import crypto from 'crypto'
+import { passwordValidator, hashPassword } from '~/utils'
 
 const roles = ['user', 'admin']
 
@@ -13,6 +14,11 @@ const objectSchema = new Schema({
         unique: true,
         trim: true,
         lowercase: true
+    },
+    password: {
+        type: String,
+        validate: passwordValidator,
+        required: true
     },
     name: {
         type: String,
@@ -58,4 +64,5 @@ objectSchema.path('email').set(function (email) {
 
     return email
 })
+
 export default mongoose.model('User', objectSchema)

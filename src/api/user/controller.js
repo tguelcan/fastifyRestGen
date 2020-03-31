@@ -29,9 +29,21 @@ export const create = async ({ body }, res) => {
 }
 
 export const update = async ({ body, params }, res) => {
+    const { email, picture, name } = body
     try {
         const user = await User.findById(params.id)
-        user ? merge(user, body).save() : res.notFound()
+        user ? merge(user, { email, picture, name }).save() : res.notFound()
+        res.send(user.view(true))            
+    } catch (error) {
+        res.badRequest(error)
+    }
+}
+
+export const updatePassword = async ({ body, params }, res) => {
+    const { password } = body
+    try {
+        const user = await User.findById(params.id)
+        user ? await user.set({ password }).save() : res.notFound()
         res.send(user.view(true))            
     } catch (error) {
         res.badRequest(error)

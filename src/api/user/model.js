@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 import { isEmail } from 'validator'
 import crypto from 'crypto'
-import { passwordValidator, hashPassword } from '~/utils'
+import { passwordValidator } from '~/utils'
 
 const roles = ['user', 'admin']
 
@@ -46,12 +46,12 @@ objectSchema.methods = {
             role: this.role,
             picture: this.picture,
             createdAt: this.createdAt,
-            updatedAt: this.updatedAt
+            updatedAt: this.updatedAt,
+            email: this.email
         }
 
         return full ? {
             ...view,
-            email: this.email,
         } : view
     }
 }

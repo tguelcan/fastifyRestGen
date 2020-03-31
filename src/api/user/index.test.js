@@ -31,7 +31,8 @@ test(`GET /api${autoPrefix} route`, t => {
         t.strictEqual(responseUser.name, user.name)
         t.strictEqual(responseUser.role, user.role)
         t.strictEqual(responseUser.picture, user.picture)
-        t.notOk(responseUser.email, 'simple view should not return the mail')
+        t.strictEqual(responseUser.email, user.email)
+
     })
 })
 

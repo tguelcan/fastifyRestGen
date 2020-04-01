@@ -124,7 +124,18 @@ test(`PUT /api${autoPrefix}/:id route`, t => {
         t.strictEqual(responseUser.email, payload.email)
     })
 })
+test(`PUT /api${autoPrefix}/:id route empty body`, t => {
+    t.plan(2)
 
+    fastify.inject({
+        method: 'PUT',
+        url: `/api${autoPrefix}/${user._id}`,
+        payload: {}
+    }, (err, response) => {
+        t.error(err)
+        t.strictEqual(response.statusCode, 400)
+    })
+})
 
 test(`DELETE /api${autoPrefix}/:id route with wrong id`, t => {
     t.plan(2)

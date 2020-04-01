@@ -5,6 +5,5 @@ export default (app) => {
         if (request.body?.password !== undefined) {
             request.body.password = await hashPassword(request.body.password)
         }
-        return
     })
 }
